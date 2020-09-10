@@ -20,7 +20,11 @@ class _AnimatedLogoState extends State<AnimatedLogo>
             seconds: 5), //la animacion va a tardar 5 segundos en completarse
         vsync: this);
 
-
+    final curvedAnimation = CurvedAnimation(
+      parent: animCtrll,
+      curve: Curves.bounceIn,
+      reverseCurve: Curves.easeOut
+    );
 
 
     //inicializamos animation , que no es mas que una transformacion del animation controller
@@ -28,7 +32,7 @@ class _AnimatedLogoState extends State<AnimatedLogo>
     anim = Tween<double>(
       begin: 0,
       end: 2 * pi,
-    ).animate(animCtrll)
+    ).animate(curvedAnimation)
       ..addListener(() { //en cada cambio del animation , se llama al setState (se llama al metodo build)
         setState(() {});
       })..addStatusListener((status) {

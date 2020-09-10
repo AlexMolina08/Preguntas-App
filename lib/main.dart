@@ -26,6 +26,11 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+  List<Widget> scoreKeeper = [
+
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
-              print("hola");
+              setState(() => scoreKeeper.add(Icon(Icons.check , color:Colors.green)));
             },
             child: Text(
               'Verdadero',
@@ -81,20 +86,7 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Expanded(
           child: Row(
-            children: [
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.cancel,
-                color: Colors.red,
-              )
-            ],
+            children: scoreKeeper
           ),
         )
       ],
