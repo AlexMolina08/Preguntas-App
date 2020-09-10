@@ -17,7 +17,7 @@ class _AnimatedLogoState extends State<AnimatedLogo>
     //inicializamos el animation controller
     animCtrll = AnimationController(
         duration: Duration(
-            seconds: 5), //la animacion va a tardar 5 segundos en completarse
+            seconds: 3), //la animacion va a tardar 5 segundos en completarse
         vsync: this);
 
     final curvedAnimation = CurvedAnimation(
