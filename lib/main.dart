@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:preguntas/animatedIcon/simple_animated_icon.dart';
-import 'package:preguntas/models/question_model.dart';
-
+import 'package:preguntas/services/quiz_service.dart';
 void main() => runApp(Preguntas());
 
 class Preguntas extends StatelessWidget {
@@ -29,17 +28,7 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
   //usamos una lista de tuplas , para almacenar la pregunta y su respuesta correcta
-  List<Question> questions = [
-    Question(
-        text: 'Aproximadamente una cuarta parte de los huesos humanos se encuentran en los pies',
-        correctAnswer: true),
-    Question(
-        text: 'Microsoft fué fundada durante la segunda guerra mundial',
-        correctAnswer: false),
-    Question(
-        text:'Mark zukemberg robó la idea de facebook a unos compañeros de su facultad',
-        correctAnswer: true),
-  ];
+
   int currentQuestion = 0;
 
   void nextQuestion() {
