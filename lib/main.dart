@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:preguntas/animatedIcon/simple_animated_icon.dart';
 import 'package:preguntas/services/quiz_service.dart';
+
+final QuizService quizService = QuizService(); //Instancia de Quiz Service (está la lógica del juego y preguntas)
+
 void main() => runApp(Preguntas());
 
 class Preguntas extends StatelessWidget {
@@ -27,15 +30,12 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  //usamos una lista de tuplas , para almacenar la pregunta y su respuesta correcta
-
   int currentQuestion = 0;
 
   void nextQuestion() {
-    if (currentQuestion < questions.length - 1)
-      currentQuestion += 1;
-    else
-      currentQuestion = 0;
+    (currentQuestion < quizService.numberOfQuestions() - 1)
+        ? currentQuestion++
+        : currentQuestion = 0;
   }
 
   @override
@@ -54,7 +54,7 @@ class _QuizPageState extends State<QuizPage> {
           flex: 8,
           child: Center(
             child: Text(
-              questions[currentQuestion].text,
+              quizService.getTextFromQuestion(currentQuestion),
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
@@ -65,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
-              if(questions[currentQuestion].correctAnswer == true)
+              if(quizService.getCorrectAnswerFromQuestion(currentQuestion))
                 print("CORRECTO !");
               else
                 print("INCORRECTO !");
@@ -87,7 +87,7 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.red,
             onPressed: () {
-              if(! questions[currentQuestion].correctAnswer)
+              if(! quizService.getCorrectAnswerFromQuestion(currentQuestion))
                 print("CORRECTO !");
               else
                 print("INCORRECTO !");

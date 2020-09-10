@@ -114,20 +114,16 @@ class QuizService {
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
 
-  String getTextFromQuestion({questionNumber}){
-    return (questionNumber < numberOfQuestions() - 1)
-        ? _questionsBank[questionNumber].text
-        : _questionsBank.first.text;
+  String getTextFromQuestion(questionNumber){
+    return _questionsBank[questionNumber].text;
   }
 
   /*
   * Devuelve la respuesta correcta de una pregunta del questionBank
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
-  bool getCorrectAnswerFromQuestion({questionNumber}){
-    return (questionNumber < numberOfQuestions() - 1)
-        ? _questionsBank[questionNumber].correctAnswer
-        : _questionsBank.first.text;
+  bool getCorrectAnswerFromQuestion(questionNumber){
+    return _questionsBank[questionNumber].correctAnswer;
   }
 
 }
