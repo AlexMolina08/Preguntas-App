@@ -6,7 +6,7 @@ import 'dart:collection';
 
 class Question {
   final String text; //Texto de la pregunta
-  final bool answer; //Respuesta correcta
+  final bool correctAnswer; //Respuesta correcta
 
-  Question({this.text , this.answer});
+  Question({this.text , this.correctAnswer});
 }

@@ -32,13 +32,13 @@ class _QuizPageState extends State<QuizPage> {
   List<Question> questions = [
     Question(
         text: 'Aproximadamente una cuarta parte de los huesos humanos se encuentran en los pies',
-        answer: true),
+        correctAnswer: true),
     Question(
         text: 'Microsoft fué fundada durante la segunda guerra mundial',
-        answer: true),
+        correctAnswer: false),
     Question(
-        text: 'Mark zukemberg robó la idea de facebook a unos compañeros de su facultad',
-        answer: true),
+        text:'Mark zukemberg robó la idea de facebook a unos compañeros de su facultad',
+        correctAnswer: true),
   ];
   int currentQuestion = 0;
 
@@ -65,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
           flex: 8,
           child: Center(
             child: Text(
-              questions[currentQuestion],
+              questions[currentQuestion].text,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
@@ -76,10 +76,13 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
+              if(questions[currentQuestion].correctAnswer == true)
+                print("CORRECTO !");
+              else
+                print("INCORRECTO !");
+
               setState(() {
                 nextQuestion();
-                print(currentQuestion);
-                print(questions.length);
               });
             },
             child: Text(
@@ -95,6 +98,10 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.red,
             onPressed: () {
+              if(! questions[currentQuestion].correctAnswer)
+                print("CORRECTO !");
+              else
+                print("INCORRECTO !");
               setState(() {
                 nextQuestion();
               });
