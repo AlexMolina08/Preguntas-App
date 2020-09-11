@@ -1,4 +1,6 @@
 import 'package:preguntas/models/question_model.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 class QuizService {
   int _currentQuestion;
@@ -53,7 +55,8 @@ class QuizService {
     Question(
     text:'La mayoría de los seres humanos utilizamos solamente el 10% de nuestro cerebro',
     correctAnswer: false),
-    Question(
+    /*
+     Question(
     text:'En los hogares españoles hay más pájaros que gatos.',
     correctAnswer: true),
     Question(
@@ -102,6 +105,7 @@ class QuizService {
     Question(
     text:'Napoleon Bonaparte era extremadamente bajo',
     correctAnswer: false),
+    * */
   ];
 
   QuizService(){
@@ -110,10 +114,14 @@ class QuizService {
 
   /*
     Incrementa currentQuestion si no se ha llegado al final
+    Devuelve false si no se ha pasado a la siguiente pregunta
   */
   void nextQuestion(){
-    if (_currentQuestion < _questionsBank.length - 1)
+    if (_currentQuestion < _questionsBank.length - 1) {
       _currentQuestion++;
+    }else{
+      Alert( title: "RFLUTTER", desc: "Flutter is awesome.").show();
+    }
   }
 
   /*
@@ -149,3 +157,5 @@ class QuizService {
   }
 
 }
+
+

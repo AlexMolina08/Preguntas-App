@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:preguntas/animatedIcon/simple_animated_icon.dart';
 import 'package:preguntas/services/quiz_service.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 final QuizService quizService =
     QuizService(); //Instancia de Quiz Service (está la lógica del juego y preguntas)
@@ -20,7 +22,8 @@ class Preguntas extends StatelessWidget {
               child: QuizPage(),
             ),
           ),
-        ));
+        )
+    );
   }
 }
 
@@ -33,8 +36,9 @@ class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = []; //Lista de Iconos
 
   void checkAnswer(bool userAnswer) {
-    //dependiendo de si acierta o no añadimos un icono u otro
-    setState(() => (userAnswer == quizService.getCorrectAnswer())
+    setState(() {
+      //dependiendo de si acierta o no añadimos un icono u otro
+      (userAnswer == quizService.getCorrectAnswer())
         ? scoreKeeper.add(
             Icon(
               Icons.check,
@@ -43,7 +47,13 @@ class _QuizPageState extends State<QuizPage> {
           )
         : scoreKeeper.add(
             Icon(Icons.close, color: Colors.red),
-          ));
+          );
+
+      //Ahora pasamos a la siguiente pregunta
+      quizService.nextQuestion();
+
+
+    });
   }
 
   @override
@@ -74,9 +84,6 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.green,
             onPressed: () {
               checkAnswer(true);
-              setState(() {
-                quizService.nextQuestion();
-              });
             },
             child: Text(
               'Verdadero',
@@ -92,9 +99,6 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.red,
             onPressed: () {
               checkAnswer(false);
-              setState(() {
-                quizService.nextQuestion();
-              });
             },
             child: Text(
               'Falso',
@@ -106,7 +110,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Expanded(
-          child: Row(children: scoreKeeper),
+          child:  Row(children: scoreKeeper),
         )
       ],
     );
