@@ -30,13 +30,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  int currentQuestion = 0;
-
-  void nextQuestion() {
-    (currentQuestion < quizService.numberOfQuestions() - 1)
-        ? currentQuestion++
-        : currentQuestion = 0;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +47,7 @@ class _QuizPageState extends State<QuizPage> {
           flex: 8,
           child: Center(
             child: Text(
-              quizService.getTextFromQuestion(currentQuestion),
+              quizService.getText(),
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
@@ -65,13 +58,13 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
-              if(quizService.getCorrectAnswerFromQuestion(currentQuestion))
+              if(quizService.getCorrectAnswer())
                 print("CORRECTO !");
               else
                 print("INCORRECTO !");
 
               setState(() {
-                nextQuestion();
+                quizService.nextQuestion();
               });
             },
             child: Text(
@@ -87,12 +80,12 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.red,
             onPressed: () {
-              if(! quizService.getCorrectAnswerFromQuestion(currentQuestion))
+              if(! quizService.getCorrectAnswer())
                 print("CORRECTO !");
               else
                 print("INCORRECTO !");
               setState(() {
-                nextQuestion();
+                quizService.nextQuestion();
               });
             },
             child: Text(

@@ -1,6 +1,8 @@
 import 'package:preguntas/models/question_model.dart';
 
 class QuizService {
+  int _currentQuestion;
+
   final List<Question> _questionsBank= [
     Question(
         text: 'Aproximadamente una cuarta parte de los huesos humanos se encuentran en los pies',
@@ -102,6 +104,18 @@ class QuizService {
     correctAnswer: false),
   ];
 
+  QuizService(){
+    _currentQuestion = 0;
+  }
+
+  /*
+    Incrementa currentQuestion si no se ha llegado al final
+  */
+  void nextQuestion(){
+    if (_currentQuestion < _questionsBank.length - 1)
+      _currentQuestion++;
+  }
+
   /*
   * Devuelve el tamaño del vector questionBank
   * */
@@ -110,20 +124,28 @@ class QuizService {
   }
 
   /*
+  * Devuelve la pregunta actual
+  * */
+
+  int getCurrentQuestion(){
+    return _currentQuestion;
+  }
+
+  /*
   * Devuelve el texto de una pregunta del questionBank
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
 
-  String getTextFromQuestion(questionNumber){
-    return _questionsBank[questionNumber].text;
+  String getText(){
+    return _questionsBank[_currentQuestion].text;
   }
 
   /*
   * Devuelve la respuesta correcta de una pregunta del questionBank
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
-  bool getCorrectAnswerFromQuestion(questionNumber){
-    return _questionsBank[questionNumber].correctAnswer;
+  bool getCorrectAnswer(){
+    return _questionsBank[_currentQuestion].correctAnswer;
   }
 
 }
