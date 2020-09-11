@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:preguntas/animatedIcon/simple_animated_icon.dart';
 import 'package:preguntas/services/quiz_service.dart';
 
-final QuizService quizService = QuizService(); //Instancia de Quiz Service (está la lógica del juego y preguntas)
+final QuizService quizService =
+    QuizService(); //Instancia de Quiz Service (está la lógica del juego y preguntas)
 
 void main() => runApp(Preguntas());
 
@@ -29,7 +30,21 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Widget> scoreKeeper = [];
+  List<Widget> scoreKeeper = []; //Lista de Iconos
+
+  void checkAnswer(bool userAnswer) {
+    //dependiendo de si acierta o no añadimos un icono u otro
+    setState(() => (userAnswer == quizService.getCorrectAnswer())
+        ? scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          )
+        : scoreKeeper.add(
+            Icon(Icons.close, color: Colors.red),
+          ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +73,7 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
-              if(quizService.getCorrectAnswer())
-                print("CORRECTO !");
-              else
-                print("INCORRECTO !");
-
+              checkAnswer(true);
               setState(() {
                 quizService.nextQuestion();
               });
@@ -80,10 +91,7 @@ class _QuizPageState extends State<QuizPage> {
           child: FlatButton(
             color: Colors.red,
             onPressed: () {
-              if(! quizService.getCorrectAnswer())
-                print("CORRECTO !");
-              else
-                print("INCORRECTO !");
+              checkAnswer(false);
               setState(() {
                 quizService.nextQuestion();
               });
