@@ -33,28 +33,65 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+
   List<Widget> scoreKeeper = []; //Lista de Iconos
 
+  /*
+  * Si userAnswer es correcta , añade Icons.check al scoreKeeper , si no , añade Icons.close
+  * Si se ha llegado al final de la lista de preguntas , devuelve un Alert para volver a Empezar
+  * */
+
   void checkAnswer(bool userAnswer) {
-    setState(() {
-      //dependiendo de si acierta o no añadimos un icono u otro
-      (userAnswer == quizService.getCorrectAnswer())
-        ? scoreKeeper.add(
-            Icon(
-              Icons.check,
-              color: Colors.green,
+    if (! quizService.endOfQuestionBank()) {
+      setState(() {
+        //dependiendo de si acierta o no añadimos un icono u otro
+        (userAnswer == quizService.getCorrectAnswer())
+          ? scoreKeeper.add(
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+            )
+          : scoreKeeper.add(
+              Icon(Icons.close, color: Colors.red),
+            );
+
+        //Ahora pasamos a la siguiente pregunta
+        quizService.nextQuestion();
+      });
+    }else{
+      Alert(
+        context: context,
+        type: AlertType.info,
+        title: "FIN DEL TEXT",
+        desc: "bien hecho!",
+        buttons: [
+          DialogButton(
+            child: Container(
+              child: Text(
+                "Volver a empezar",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
             ),
+            //Al pulsar el boton , debe restaurarse todo
+            onPressed: () {
+              resetPage();
+              Navigator.pop(context);
+            },
           )
-        : scoreKeeper.add(
-            Icon(Icons.close, color: Colors.red),
-          );
+        ],
+      ).show();
+    }
+  }
 
-      //Ahora pasamos a la siguiente pregunta
-      quizService.nextQuestion();
-
-
+  void resetPage(){
+    setState(() {
+      quizService.resetQuestionBank(); //nos ponemos al principio del questionBank
+      scoreKeeper.clear();
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +115,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+        //--- TRUE BOTTON ----
         Expanded(
           flex: 1,
           child: FlatButton(
@@ -94,6 +132,7 @@ class _QuizPageState extends State<QuizPage> {
         SizedBox(
           height: 20.0,
         ),
+        //--- FALSE BOTTON ----
         Expanded(
           child: FlatButton(
             color: Colors.red,

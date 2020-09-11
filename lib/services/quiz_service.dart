@@ -117,44 +117,41 @@ class QuizService {
     Devuelve false si no se ha pasado a la siguiente pregunta
   */
   void nextQuestion(){
-    if (_currentQuestion < _questionsBank.length - 1) {
+    if (_currentQuestion < numberOfQuestions() - 1)
       _currentQuestion++;
-    }else{
-      Alert( title: "RFLUTTER", desc: "Flutter is awesome.").show();
-    }
+
   }
 
   /*
   * Devuelve el tamaño del vector questionBank
   * */
-  int numberOfQuestions(){
-    return _questionsBank.length;
-  }
+  int numberOfQuestions() => _questionsBank.length;
+
+  /*
+  * Devuelve true si hemos llegado al final del questionBank
+  * */
+  bool endOfQuestionBank() => _currentQuestion == numberOfQuestions() - 1;
 
   /*
   * Devuelve la pregunta actual
   * */
 
-  int getCurrentQuestion(){
-    return _currentQuestion;
-  }
+  int getCurrentQuestion() => _currentQuestion;
 
   /*
   * Devuelve el texto de una pregunta del questionBank
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
 
-  String getText(){
-    return _questionsBank[_currentQuestion].text;
-  }
+  String getText() => _questionsBank[_currentQuestion].text;
 
   /*
   * Devuelve la respuesta correcta de una pregunta del questionBank
   * Si se da un indice erróneo , devuelve el primer elemento
   * */
-  bool getCorrectAnswer(){
-    return _questionsBank[_currentQuestion].correctAnswer;
-  }
+  bool getCorrectAnswer() => _questionsBank[_currentQuestion].correctAnswer;
+
+  void resetQuestionBank() => _currentQuestion = 0;
 
 }
 
