@@ -114,11 +114,11 @@ class QuizService {
 
   /*
     Incrementa currentQuestion si no se ha llegado al final
-    Devuelve false si no se ha pasado a la siguiente pregunta
   */
-  void nextQuestion(){
+  int nextQuestion(){
     if (_currentQuestion < numberOfQuestions() - 1)
       _currentQuestion++;
+    return _currentQuestion;
 
   }
 
@@ -130,7 +130,7 @@ class QuizService {
   /*
   * Devuelve true si hemos llegado al final del questionBank
   * */
-  bool endOfQuestionBank() => _currentQuestion == numberOfQuestions() - 1;
+  bool endOfQuestionBank() => _currentQuestion == numberOfQuestions() - 1 ;
 
   /*
   * Devuelve la pregunta actual

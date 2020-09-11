@@ -33,9 +33,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-
-
   List<Widget> scoreKeeper = []; //Lista de Iconos
+  int hits = 0; //numero de aciertos durante la partida
 
   /*
   * Si userAnswer es correcta , añade Icons.check al scoreKeeper , si no , añade Icons.close
@@ -43,50 +42,58 @@ class _QuizPageState extends State<QuizPage> {
   * */
 
   void checkAnswer(bool userAnswer) {
-    if (! quizService.endOfQuestionBank()) {
+
       setState(() {
         //dependiendo de si acierta o no añadimos un icono u otro
-        (userAnswer == quizService.getCorrectAnswer())
-          ? scoreKeeper.add(
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-            )
-          : scoreKeeper.add(
-              Icon(Icons.close, color: Colors.red),
-            );
-
-        //Ahora pasamos a la siguiente pregunta
-        quizService.nextQuestion();
+        if (userAnswer == quizService.getCorrectAnswer()) {
+          hits++;
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green,),
+          );
+        } else {
+          scoreKeeper.add(Icon(Icons.close, color: Colors.red),);
+        }
       });
-    }else{
-      Alert(
-        context: context,
-        type: AlertType.info,
-        title: "FIN DEL TEXT",
-        desc: "bien hecho!",
-        buttons: [
-          DialogButton(
-            child: Container(
-              child: Text(
-                "Volver a empezar",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+
+      //Comprobamos si esta es la ultima pregunta
+      if (quizService.endOfQuestionBank()) {
+        Alert(
+          style: AlertStyle(
+            backgroundColor: Colors.pink
+          ),
+          onWillPopActive: true, //de esta forma evitamos que el alert desaparezca al hacer tap en otro lugar
+          closeFunction: (){
+            resetPage();
+            Navigator.pop(context);
+          },
+          context: context,
+          type: AlertType.info,
+          title: "END",
+          desc: "Has acertado $hits de ${quizService.numberOfQuestions()}",
+          buttons: [
+            DialogButton(
+              child: Container(
+                child: Text(
+                  "Volver a empezar",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
-            ),
-            //Al pulsar el boton , debe restaurarse todo
-            onPressed: () {
-              resetPage();
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ).show();
-    }
+              //Al pulsar el boton , debe restaurarse todo
+              onPressed: () {
+                resetPage();
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ).show();
+      }
+      setState(() => quizService.nextQuestion());
+
   }
+
 
   void resetPage(){
     setState(() {
+      hits = 0;
       quizService.resetQuestionBank(); //nos ponemos al principio del questionBank
       scoreKeeper.clear();
     });
@@ -155,9 +162,3 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-/*
-* Q1 .- Aproximadamente una cuarta parte de los huesos humanos se encuentran en los pies , true
-* Q2 .- Microsoft fué fundada durante la segunda guerra mundial , false
-* Q3 .- Mark zukemberg robó la idea de facebook a unos compañeros de su facultad , true
-* */
